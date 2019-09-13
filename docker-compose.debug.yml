@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  express-typescript-mongodb-starter:
+    image: express-typescript-mongodb-starter
+    build: .
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8080:8080
+      - 9229:9229
+    depends_on:
+      - mongo
+    mongo:
+      image: mongo
+      ports:
+      - "27017:27017"
+    command: node --inspect=0.0.0.0:9229 ./dist/server.js

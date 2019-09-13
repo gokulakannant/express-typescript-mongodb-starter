@@ -1,0 +1,15 @@
+version: "2"
+services:
+  express_typescript_mongodb_starter:
+    container_name: express_typescript_mongodb_starter
+    restart: always
+    build: .
+    ports:
+      - "3001:3001"
+    links:
+      - mongo
+  mongo:
+    container_name: user_mongo
+    image: mongo
+    ports:
+      - "27017:27017"

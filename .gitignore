@@ -1,0 +1,13 @@
+node_modules/
+.vscode
+coverage
+dist/*
+storage/log/*
+!storage/log/Readme.md
+storage/temp/*
+!storage/temp/Readme.md
+Documentation/*
+!Documentation/Technical-Documentation.zip
+TestReport/*
+!TestReport/Readme.md
+.idea/*

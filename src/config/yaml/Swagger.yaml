@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  title: Express Typescript Mongodb Starter
+  description: A express app to expose the basic api's.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001/api/v1
+    description: For development purposes.
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BasicAuth: []
+tags:
+- name: "auth"
+  description: "To authendicate further apis"
+- name: "user"
+  description: "Basic crud operation of users"
+paths:
+  /login:
+    post:
+      tags:
+      - "auth"
+      summary: Login user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              example:
+                email: "admin@gmail.com"
+                password: "admin123"
+      responses:
+        200:
+          description: Logged in
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        401:
+          description: "Unauthorized"
+  /admin/index:
+    post:
+      tags:
+        - "user"
+      summary: "List the available users from the database"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/GridRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        401:
+          description: "Unauthorized"
+  /admin/store:
+    post:
+      tags:
+      - "user"
+      summary: "To store the user info into the database"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/UserModel"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        401:
+          description: "Unauthorized"
+        422:
+          description: "User already registered"
+  /admin/update/{userId}:
+    put:
+      tags:
+      - "user"
+      summary: "To update the user info into the database"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/UserModel"
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: the user identifier, as userId
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        401:
+          description: "Unauthorized"
+  /admin/delete:
+    delete:
+      tags:
+      - "user"
+      summary: "To delete the documents of users in database."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "array"
+              example: [
+                "5d7a20512ec76643bf1c6b61"
+              ]
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        401:
+          description: "Unauthorized"
+  /admin/{userId}:
+    get:
+      tags:
+      - "user"
+      summary: "To get the single record of user document from the collection"
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: the user identifier, as userId
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        401:
+          description: "Unauthorized"
+definitions:
+  UserModel:
+    type: "object"
+    properties:
+      name: "string"
+      email: "string"
+      is_active: "string"
+      dob: "string"
+      role: "string"
+      mobile_number: "number"
+    example:
+      name: "Foo"
+      email: "foo@gmail.com"
+      is_active: "true"
+      dob: "2019-06-25T19:31:59.747Z"
+      role: "Admin"
+      mobile_number: 9790352880
+  GridRequest:
+    type: "object"
+    properties:
+      row_per_page:
+        type: "number"
+      page:
+        type: "number"
+      search_query:
+        type: "string"
+      filter:
+        $ref: "#/definitions/Filter"
+      sort:
+        $ref: "#/definitions/Sort"
+    example: {
+      row_per_page: 5,
+      page: 1,
+      filter: {
+        is_active: "",
+        roles: "",
+        startDate: "",
+        endDate: "",
+        search_query: ""
+      },
+      sort: {
+        order: "desc",
+        orderBy: "name"
+      }
+    }
+  Status:
+    type: "string"
+    description: "Denotes the user is active or not"
+    enum:
+      - "true"
+      - "false"
+    example: "true"
+  Sort:
+    type: "object"
+    properties:
+      order:
+        type: "string"
+      orderBy:
+        type: "string"
+    example:
+      order: "asc"
+      orderBy: "name"
+  Filter:
+    type: "object"
+    properties:
+      is_active:
+        $ref: "#/definitions/Status"
+      roles:
+        enum:
+          - "Admin"
+          - "Moderator"
+          - "Analyst"
+      dob:
+        type: "date"
+      startDate:
+        type: "date"
+      endDate:
+        type: "date"
+  ApiResponse:
+    type: "object"
+    properties:
+      data:
+        type: "object"
+      message:
+        type: "string"
+    example:
+      data: {}
+      message: "message"
