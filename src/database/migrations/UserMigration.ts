@@ -1,4 +1,5 @@
 import { Db } from "mongodb";
+import logger from "../../helpers/Logger";
 
 const COLLECTION_NAME = "users";
 /**
@@ -24,7 +25,7 @@ const insertInitialUser = async (db: Db) => {
                 date_updated: new Date()
             });
         } catch (error) {
-            console.log(JSON.stringify(error));
+            logger.error(JSON.stringify(error));
         }
     }
 };
@@ -38,8 +39,8 @@ const UsersMigration = async (db: Db) => {
     try {
         await db.createCollection(COLLECTION_NAME);
     } catch (error) {
-        console.log("User collection Migration got error");
-        console.log(JSON.stringify(error));
+        logger.error("User collection Migration got error");
+        logger.error(JSON.stringify(error));
     }
     await insertInitialUser(db);
 };

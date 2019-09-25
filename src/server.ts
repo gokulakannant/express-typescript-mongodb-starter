@@ -1,6 +1,7 @@
 import http from "http";
 import settings from "./config/Settings";
 import app from "./app";
+import logger from "./helpers/Logger";
 
 const server = http.createServer(app);
 /**
@@ -25,11 +26,11 @@ function onError(error: NodeJS.ErrnoException): void {
     // handle specific listen errors with friendly messages
     switch (error.code) {
       case "EACCES":
-        console.error(bind + " requires elevated privileges");
+        logger.error(bind + " requires elevated privileges");
         process.exit(1);
         break;
       case "EADDRINUSE":
-        console.error(bind + " is already in use");
+        logger.error(bind + " is already in use");
         process.exit(1);
         break;
       default:
@@ -45,10 +46,10 @@ function onListening(): void {
     const bind = typeof addr === "string"
       ? "pipe " + addr
       : "port " + addr.port;
-    console.log("Listening on " + bind);
+    logger.log("Listening on " + bind);
 
     const serverAddress: any = server.address();
-    console.log(`API document(swagger): http://localhost:${serverAddress.port}/api-docs`);
-    console.log(`Technical Document: http://localhost:${serverAddress.port}${settings.techDocConfig.endPoint}`);
-    console.log(`Test Report: http://localhost:${serverAddress.port}${settings.testReportConfig.endPoint}`);
+    logger.log(`API document(swagger): http://localhost:${serverAddress.port}/api-docs`);
+    logger.log(`Technical Document: http://localhost:${serverAddress.port}${settings.techDocConfig.endPoint}`);
+    logger.log(`Test Report: http://localhost:${serverAddress.port}${settings.testReportConfig.endPoint}`);
 }

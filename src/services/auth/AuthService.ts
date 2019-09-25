@@ -4,6 +4,7 @@ import { db } from "../../config/Mongo";
 import utils from "../../helpers/Utils";
 import security from "../../helpers/Security";
 import mailer from "../../helpers/Mailer";
+import logger from "../../helpers/Logger";
 import { IUserInfo, GridRequest, GridResponse, Filter, Sort, LoginResponse, AdminError } from "../../types";
 
 const COLLECTION_NAME = "users";
@@ -194,8 +195,8 @@ class AuthService {
         const tmpl: string = AuthService.getRegisterUserEmailTmpl()
                                         .replace("{{username}}", data.name)
                                         .replace("{{password}}", data.password);
-        console.log(data.email);
-        console.log(data.password);
+        logger.log(data.email);
+        logger.log(data.password);
         return tmpl;
     }
 

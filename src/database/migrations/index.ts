@@ -1,6 +1,7 @@
 import url from "url";
 import { MongoClient } from "mongodb";
 import settings from "../../config/Settings";
+import logger from "../../helpers/Logger";
 import { UsersMigration } from "./UserMigration";
 
 const mongodbConnection = settings.mongodbServerUrl;
@@ -11,7 +12,8 @@ const dbName = mongoPathName.substring(mongoPathName.lastIndexOf("/") + 1);
  * Mongodb connect options
  */
 const CONNECT_OPTIONS = {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 };
 
 /**
@@ -27,9 +29,9 @@ const CONNECT_OPTIONS = {
             CONNECT_OPTIONS
         );
         db = client.db(dbName);
-        console.info(`Successfully connected to ${mongodbConnection}`);
+        logger.info(`Successfully connected to ${mongodbConnection}`);
     } catch (e) {
-        console.error(`MongoDB connection was failed. ${e.message}`);
+        logger.error(`MongoDB connection was failed. ${e.message}`);
         return;
     }
 

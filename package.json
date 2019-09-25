@@ -9,7 +9,7 @@
     "url": "https://github.com/gokulakannant/express-typescript-mongodb-starter.git"
   },
   "author": {
-    "name": "gokulakannant <tgokulakannan951@gmail.com>",
+    "name": "gokulakannant <gokulakannanthangaraji@gmail.com>",
     "url": "https://github.com/gokulakannant"
   },
   "scripts": {
@@ -32,7 +32,7 @@
     "test": "jest --coverage --verbose"
   },
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -43,10 +43,10 @@
     "nodemailer": "^5.1.1",
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^1.18.3",
-    "winston": "^3.0.0"
+    "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.17.0",
     "@types/chai": "^4.1.7",
     "@types/debug": "0.0.31",
@@ -81,9 +81,5 @@
       "json"
     ],
     "forceExit": true
-  },
-  "engines": {
-    "node": "10.5.0",
-    "npm": "6.1.0"
   }
 }

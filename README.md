@@ -32,7 +32,7 @@ The required prerequistites are given below,
 
 ##### ***Dependencies***:
 
-* bcrypt
+* bcryptjs
 * body-parser
 * cookie
 * debug
@@ -46,7 +46,7 @@ The required prerequistites are given below,
 
 ##### ***Dev dependencies***:
 
-* @types/bcrypt
+* @types/bcryptjs
 * @types/body-parser
 * @types/chai
 * @types/debug
@@ -144,8 +144,6 @@ step 3 : Run the below command
 
 ```bash
 npm install
-or
-yarn
 ```
 
 step 4 : Build the typescript files
@@ -171,8 +169,6 @@ step 7 : To start the server
 ```bash
 npm start
 ```
-
-***(If you are using yarn, it should be installed in your machine)***
 
 > **Note:**
 > To make sure the `MongoDB` service is started before running following npm scripts.
