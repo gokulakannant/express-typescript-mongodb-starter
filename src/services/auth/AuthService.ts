@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import { ObjectID, ObjectId } from "mongodb";
 import { db } from "../../config/Mongo";
 import utils from "../../helpers/Utils";
@@ -171,7 +171,7 @@ class AuthService {
             }
 
             if (admin.password && admin.password.length >= 6) {
-                admin.password = bcrypt.hashSync(admin.password, saltRounds);
+                admin.password = bcryptjs.hashSync(admin.password, saltRounds);
             } else {
                 reject(new AdminError("Password should have atleast 6 digits.", 422));
             }
@@ -306,7 +306,7 @@ class AuthService {
             } else {
                 return reject(new AdminError("Authendication failed", 401));
             }
-            const result = await bcrypt.compareSync(payload.password, user.password);
+            const result = await bcryptjs.compareSync(payload.password, user.password);
             if (result) {
                 const response = new LoginResponse();
                 response.authId = user._id;

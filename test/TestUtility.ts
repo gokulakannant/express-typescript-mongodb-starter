@@ -9,8 +9,7 @@ const dbName: string = mongoPathName.substring(mongoPathName.lastIndexOf("/") + 
 const CONNECT_OPTIONS = {
     reconnectTries: 3600,
     reconnectInterval: 1000,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    useNewUrlParser: true
 };
 
 export const getDB = async () => {
