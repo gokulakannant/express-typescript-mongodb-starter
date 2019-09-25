@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
 import settings from "../config/Settings";
 import { SmptInfo } from "types";
+import logger from "../helpers/Logger";
 
 const SMTP_FROM_CONFIG_FILE: SmptInfo = {
     host: settings.smtpServer.host,
@@ -94,12 +95,12 @@ class Mailer {
         message.from = this.getFrom(emailSettings);
 
         try {
-            console.info(smtp);
+            logger.info(JSON.stringify(smtp));
             const result = await this.sendMail(smtp, message);
-            console.info("Email sent", result);
+            logger.info(`Email sent, ${result}`);
             return true;
         } catch (e) {
-            console.error("Email send failed", e);
+            logger.error(`Email send failed ${e}`);
             return false;
         }
     }

@@ -1,6 +1,7 @@
 import url from "url";
 import { MongoClient, Db } from "mongodb";
 import settings from "./Settings";
+import logger from "../helpers/Logger";
 
 const mongodbConnection: string = settings.mongodbServerUrl;
 const mongoPathName: string = url.parse(mongodbConnection).pathname;
@@ -17,21 +18,22 @@ const RECONNECT_INTERVAL: number = 1000;
 const CONNECT_OPTIONS = {
     reconnectTries: 3600,
     reconnectInterval: RECONNECT_INTERVAL,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 };
 
 /**
  * Error callback method of mongodb connection
  */
 const onClose = () => {
-    console.info("MongoDB connection was closed");
+    logger.info("MongoDB connection was closed");
 };
 
 /**
  * Reconnect callback method of mongodb connection
  */
 const onReconnect = () => {
-    console.info("MongoDB reconnected");
+    logger.info("MongoDB reconnected");
 };
 
 /**
@@ -48,16 +50,15 @@ const connectWithRetry = () => {
         CONNECT_OPTIONS,
         (err, client) => {
             if (err) {
-                console.error(
-                    `MongoDB connection was failed: ${err.message}`,
-                    err.message,
+                logger.error(
+                    `MongoDB connection was failed: ${err.message} :: ${err.message}`
                 );
                 setTimeout(connectWithRetry, RECONNECT_INTERVAL);
             } else {
                 db = client.db(dbName);
                 db.on("close", onClose);
                 db.on("reconnect", onReconnect);
-                console.info("MongoDB connected successfully");
+                logger.info("MongoDB connected successfully");
             }
         },
     );

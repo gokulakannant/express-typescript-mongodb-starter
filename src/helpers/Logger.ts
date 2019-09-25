@@ -43,8 +43,46 @@ class Logger {
         };
     }
 
+    /**
+     * Get direct instance of winston logger
+     */
     get logger(): winston.Logger {
         return this._logger;
+    }
+
+    /**
+     * Log the message as winston info
+     *
+     * @param message The message to log
+     */
+    public info(message: string): void {
+        this._logger.info(message);
+    }
+
+    /**
+     * Log the message as winston info
+     *
+     * @param message The message to log
+     */
+    public log(message: string): void {
+        this._logger.info(message);
+    }
+
+    /**
+     * Log the message as winston debug
+     *
+     * @param message The message to log
+     */
+    public debug(message: string): void {
+        this._logger.debug(message);
+    }
+
+    /**
+     * Log the message as winston error
+     * @param message The message to log
+     */
+    public error(message: string): void {
+        this._logger.error(message);
     }
 
     /**
@@ -68,12 +106,6 @@ class Logger {
                 new winston.transports.File(Logger.loggerOptions().file)
             ]
         });
-
-        // Assign the winston logger for javascript console.
-        // Why because, We no need to import the logger class anywhere in the project
-        console.log = this._logger.info;
-        console.error = this._logger.error;
-        console.debug = this._logger.debug;
     }
 
     /**
@@ -88,12 +120,12 @@ class Logger {
         if (err) {
             res.status(err.statusCode || 500);
             res.send(buildErrorResponse(err));
-            console.error(err.stack);
+            this.error(err.stack);
             /** This line is not so important. The request will automatically proceed next req */
             next();
         }
 
-        console.error(`StatusCode :: ${err.statusCode || 500}
+        this.error(`StatusCode :: ${err.statusCode || 500}
                        Message :: ${err.message}
                        Url :: ${req.originalUrl}
                        Method :: ${req.method}
