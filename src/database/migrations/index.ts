@@ -12,8 +12,7 @@ const dbName = mongoPathName.substring(mongoPathName.lastIndexOf("/") + 1);
  * Mongodb connect options
  */
 const CONNECT_OPTIONS = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    useNewUrlParser: true
 };
 
 /**

@@ -14,7 +14,6 @@
   },
   "scripts": {
     "build-ts": "tsc",
-    "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "migrate": "node ./dist/database/migrations/index.js",
     "seed": "node ./dist/database/seeders/index.js",
@@ -23,7 +22,7 @@
     "predocs": "npm run clean-docs",
     "docs": "typedoc --options ./typedocconfig.ts",
     "postdocs": "bestzip Documentation/Technical-Documentation.zip Documentation/*",
-    "watch": "npm run watch-ts & nodemon ./dist/server.js",
+    "watch": "nodemon",
     "watch-test": "npm run test -- --watchAll",
     "prebuild": "shx rm -rf ./dist",
     "build": "npm run tslint && npm run build-ts",

@@ -18,8 +18,7 @@ const RECONNECT_INTERVAL: number = 1000;
 const CONNECT_OPTIONS = {
     reconnectTries: 3600,
     reconnectInterval: RECONNECT_INTERVAL,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    useNewUrlParser: true
 };
 
 /**
