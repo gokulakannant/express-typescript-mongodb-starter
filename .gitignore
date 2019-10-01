@@ -11,3 +11,4 @@ Documentation/*
 TestReport/*
 !TestReport/Readme.md
 .idea/*
+.env

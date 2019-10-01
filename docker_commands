@@ -1,0 +1,16 @@
+
+===============================================================
+DOCKER BUILD:
+
+docker build -t gokulakannan/etms:1.0.0 .
+
+docker build -t gokulakannan/etms:1.0.0 --build-arg HTTP_PROXY=http://tgokulak:Gokulmyn%406@185.46.212.88:80 --build-arg HTTPS_PROXY=http://tgokulak:Gokulmyn%406@185.46.212.88:80 .
+===============================================================
+
+RUN PARTICULAR NPM COMMAND IN DOCKER CONATAINER
+
+docker exec {container id} sh -c "cd /usr/src/app && npm run setup"
+
+Example:
+docker exec 8bc7c6e040f5 sh -c "cd /usr/src/app && npm run setup"
+================================================================

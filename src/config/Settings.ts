@@ -1,6 +1,9 @@
 
+import dotenv from "dotenv";
+dotenv.config();
+
 const DB_HOST: string = process.env.DB_HOST || "127.0.0.1";
-const DB_PORT: string | number = process.env.DB_PORT || 27017;
+const DB_PORT: number = Number(process.env.DB_PORT) || 27017;
 const DB_NAME: string = process.env.DB_NAME || "express-ts-mongodb-starter";
 const DB_USER: string = process.env.DB_USER || "";
 const DB_PASS: string = process.env.DB_PASS || "";
@@ -8,30 +11,32 @@ const DB_CRED: string = DB_USER.length > 0 || DB_PASS.length > 0 ? `${DB_USER}:$
 
 const DB_URL: string = process.env.DB_URL || `mongodb://${DB_CRED}${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
+console.log("****************** DB url :: " + DB_URL);
+
 export default {
 
     /* Api base url */
-    apiBaseUrl: "http://localhost:3001/api/v1",
+    apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3001/api/v1",
 
     /* Server listening port */
-    apiListenPort: 3001,
+    apiListenPort: process.env.API_LISTENING_PORT || 3001,
 
     /* Mongodb connection url */
     mongodbServerUrl: DB_URL,
 
     /* Default smtp configurations */
     smtpServer: {
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: true,
-        user: "",
-        pass: "",
-        fromName: "Admin Panel",
-        fromAddress: ""
+        host: process.env.SMTP_HOST || "smtp.gmail.com",
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: Boolean(process.env.SMTP_SECURE) || true,
+        user: process.env.SMTP_USER || "",
+        pass: process.env.SMTP_PASS || "",
+        fromName: process.env.SMTP_FROM_NAME || "Admin Panel",
+        fromAddress: process.env.SMTP_FROM_ADDRESS || ""
     },
 
     /* key to sign tokens */
-    jwtSecretKey: "find-me-if-you-can",
+    jwtSecretKey: process.env.JWT_SECRET_KEY || "find-me-if-you-can",
 
     cookieSecretKey: "-",
 
