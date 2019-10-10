@@ -4,8 +4,21 @@ info:
   description: A express app to expose the basic api's.
   version: 1.0.0
 servers:
-  - url: http://localhost:3001/api/v1
-    description: For development purposes.
+  - url: '{protocol}://{hostname}:{port}/api/{version}'
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+      hostname:
+        default: localhost
+      port:
+        default: '3001'
+      version:
+        enum:
+          - v1
+        default: v1
 components:
   securitySchemes:
     BasicAuth:

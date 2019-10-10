@@ -1,15 +1,35 @@
-version: "2"
+version: "3.7"
 services:
-  express_typescript_mongodb_starter:
-    container_name: express_typescript_mongodb_starter
-    restart: always
-    build: .
+  etms:
+    image: gokulakannan/etms:1.0.0
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    configs:
+      - source: env-2
+        target: /usr/src/app/.env
     ports:
-      - "3001:3001"
-    links:
+      - 3001:3001
+    depends_on:
       - mongo
   mongo:
-    container_name: user_mongo
-    image: mongo
+    image: mongo:latest
     ports:
-      - "27017:27017"
+      - 27017:27017
+    # restart: always
+    volumes:
+      - mongo:/data/db
+volumes:
+  mongo:
+configs:
+  env-2:
+    file: .env
