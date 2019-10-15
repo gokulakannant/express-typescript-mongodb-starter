@@ -15,7 +15,7 @@ services:
         max-size: "10m"
         max-file: "10"
     configs:
-      - source: env-2
+      - source: env
         target: /usr/src/app/.env
     ports:
       - 3001:3001
@@ -31,5 +31,5 @@ services:
 volumes:
   mongo:
 configs:
-  env-2:
+  env:
     file: .env

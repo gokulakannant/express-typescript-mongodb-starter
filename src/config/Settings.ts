@@ -11,8 +11,6 @@ const DB_CRED: string = DB_USER.length > 0 || DB_PASS.length > 0 ? `${DB_USER}:$
 
 const DB_URL: string = process.env.DB_URL || `mongodb://${DB_CRED}${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
-console.log("****************** DB url :: " + DB_URL);
-
 export default {
 
     /* Api base url */
