@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   etms:
-    image: gokulakannan/etms:1.0.0
+    image: gokulakannan/etms:latest
     deploy:
       replicas: 1
       restart_policy:
@@ -25,7 +25,6 @@ services:
     image: mongo:latest
     ports:
       - 27017:27017
-    # restart: always
     volumes:
       - mongo:/data/db
 volumes:

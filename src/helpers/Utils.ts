@@ -153,6 +153,15 @@ class Utils {
      * `tsFormat` in the sense, timestamp format. Which is used to retrive the locale timestring
      */
     tsFormat = () => (new Date()).toLocaleTimeString();
+
+    /**
+     * Return true if the string is `true`
+     *
+     * @param string string to validate
+     */
+    isTrueSet(string: string): boolean {
+        return string.trim().toLowerCase() === "true";
+    }
 }
 
 export default Utils.getInstance();
