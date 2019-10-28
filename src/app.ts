@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import swagger from "swagger-ui-express";
@@ -20,20 +20,24 @@ app.set("trust proxy", 1);
 app.use(helmet());
 
 /** Header configurations */
-app.all("*", (req, res, next) => {
+app.all("*", (req: Request, res: Response, next: NextFunction) => {
     // CORS headers
-    res.header(
-        "Access-Control-Allow-Origin",
-        security.getAccessControlAllowOrigin()
-    );
+    const allowedOrigins = security.getAccessControlAllowOrigin();
+    const { origin } = req.headers;
+    if (allowedOrigins === "*") {
+        res.header("Access-Control-Allow-Origin", allowedOrigins);
+    } else if (allowedOrigins.indexOf(origin as string) > -1) {
+        res.header("Access-Control-Allow-Origin", origin as string);
+    }
+
     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
     res.header("Access-Control-Allow-Credentials", "true");
     res.header(
         "Access-Control-Allow-Headers",
-        "*"
+        "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization"
     );
     if ("OPTIONS" === req.method) {
-        res.send(200);
+        res.sendStatus(200);
     } else {
         next();
     }

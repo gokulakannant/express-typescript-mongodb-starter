@@ -21,7 +21,12 @@ class Security {
      *
      * @returns * (means all)
      */
-    public getAccessControlAllowOrigin = (): string => "*";
+    public getAccessControlAllowOrigin = (): Array<string> | string => {
+        if (settings.developerMode) {
+            return "*";
+        }
+        return [settings.clientBaseUrl, settings.adminBaseUrl];
+    };
 
     /**
      * To validate the JWT token along with global jwtsecret key

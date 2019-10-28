@@ -1,6 +1,7 @@
 
 import dotenv from "dotenv";
 dotenv.config();
+import utils from "../helpers/Utils";
 
 const DB_HOST: string = process.env.DB_HOST || "127.0.0.1";
 const DB_PORT: number = Number(process.env.DB_PORT) || 27017;
@@ -22,11 +23,15 @@ export default {
     /* Mongodb connection url */
     mongodbServerUrl: DB_URL,
 
+    /* Access control allowed origin */
+    clientBaseUrl: process.env.CLIENT_BASE_URL || "http://localhost:3000",
+    adminBaseUrl: (process.env.API_BASE_URL) ? new URL(process.env.API_BASE_URL).origin : "http://localhost:3001",
+
     /* Default smtp configurations */
     smtpServer: {
         host: process.env.SMTP_HOST || "smtp.gmail.com",
         port: Number(process.env.SMTP_PORT) || 587,
-        secure: Boolean(process.env.SMTP_SECURE) || true,
+        secure: utils.isTrueSet(process.env.SMTP_SECURE),
         user: process.env.SMTP_USER || "",
         pass: process.env.SMTP_PASS || "",
         fromName: process.env.SMTP_FROM_NAME || "Admin Panel",
@@ -57,5 +62,5 @@ export default {
     tempStoragePath: "storage/temp/",
 
     /* Mode of server running */
-    developerMode: true
+    developerMode: utils.isTrueSet(process.env.DEVELOPER_MODE)
 };

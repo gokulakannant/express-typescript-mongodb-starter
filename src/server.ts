@@ -48,8 +48,7 @@ function onListening(): void {
       : "port " + addr.port;
     logger.log("Listening on " + bind);
 
-    const serverAddress: any = server.address();
-    logger.log(`API document(swagger): http://localhost:${serverAddress.port}/api-docs`);
-    logger.log(`Technical Document: http://localhost:${serverAddress.port}${settings.techDocConfig.endPoint}`);
-    logger.log(`Test Report: http://localhost:${serverAddress.port}${settings.testReportConfig.endPoint}`);
+    logger.log(`API document(swagger): ${settings.adminBaseUrl}/api-docs`);
+    logger.log(`Technical Document: ${settings.adminBaseUrl}${settings.techDocConfig.endPoint}`);
+    logger.log(`Test Report: ${settings.adminBaseUrl}${settings.testReportConfig.endPoint}`);
 }
