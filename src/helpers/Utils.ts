@@ -160,6 +160,9 @@ class Utils {
      * @param string string to validate
      */
     isTrueSet(string: string): boolean {
+        if (!string) {
+            return false;
+        }
         return string.trim().toLowerCase() === "true";
     }
 }

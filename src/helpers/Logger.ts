@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { Response, Request, NextFunction } from "express";
 import { buildErrorResponse } from "./ResponseBuilder";
-import { CustomError } from "../types/General";
+import { AdminError } from "../types/General";
 import Utils from "./Utils";
 
 class Logger {
@@ -51,6 +51,29 @@ class Logger {
     }
 
     /**
+     * Create the log file if it is not exists
+     * Then, creating a winston instance for the app
+     * Assing the winslon logger instance to javascript console
+     * @returns {void}
+     */
+    private registerWinstonInstance() {
+        if (!fs.existsSync(Logger.LOGS_DIR)) {
+            fs.mkdirSync(Logger.LOGS_DIR, "0777");
+        }
+
+        this._logger = winston.createLogger({
+            format: winston.format.combine(
+                winston.format.splat(),
+                winston.format.simple()
+            ),
+            transports: [
+                new winston.transports.Console(Logger.loggerOptions().console),
+                new winston.transports.File(Logger.loggerOptions().file)
+            ]
+        });
+    }
+
+    /**
      * Log the message as winston info
      *
      * @param message The message to log
@@ -86,29 +109,6 @@ class Logger {
     }
 
     /**
-     * Create the log file if it is not exists
-     * Then, creating a winston instance for the app
-     * Assing the winslon logger instance to javascript console
-     * @returns {void}
-     */
-    private registerWinstonInstance() {
-        if (!fs.existsSync(Logger.LOGS_DIR)) {
-            fs.mkdirSync(Logger.LOGS_DIR, "0777");
-        }
-
-        this._logger = winston.createLogger({
-            format: winston.format.combine(
-                winston.format.splat(),
-                winston.format.simple()
-            ),
-            transports: [
-                new winston.transports.Console(Logger.loggerOptions().console),
-                new winston.transports.File(Logger.loggerOptions().file)
-            ]
-        });
-    }
-
-    /**
      * Method for caught the throwed exceptions and error over the application.
      *
      * @param {object} err
@@ -116,7 +116,7 @@ class Logger {
      * @param {object} res
      * @param {method} next
      */
-    public logAppErrors(err: CustomError, req: Request, res: Response, next: NextFunction) {
+    public logAppErrors(err: AdminError, req: Request, res: Response, next: NextFunction) {
         if (err) {
             res.status(err.statusCode || 500);
             res.send(buildErrorResponse(err));

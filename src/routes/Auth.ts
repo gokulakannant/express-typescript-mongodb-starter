@@ -4,9 +4,8 @@ import { buildSuccessResponse } from "../helpers/ResponseBuilder";
 import { Router, Request, Response, NextFunction } from "express";
 import { BaseRoute, LoginResponse, GridResponse } from "../types";
 
-class AuthRoute extends BaseRoute {
-    constructor(public _router: Router, public _openRouter: Router) {
-        super();
+class AuthRoute implements BaseRoute {
+    constructor(private _router: Router, private _openRouter: Router) {
         this.registerRoutes();
     }
 
@@ -14,7 +13,7 @@ class AuthRoute extends BaseRoute {
         return new AuthRoute(router, openRouter);
     }
 
-    registerRoutes(): void {
+    private registerRoutes(): void {
         this._router.post(
             "/v1/admin/index",
             this.index.bind(this),
@@ -68,7 +67,7 @@ class AuthRoute extends BaseRoute {
     delete(req: Request, res: Response, next: NextFunction): void {
         AuthService.delete(req.body)
             .then((data: boolean) => {
-                res.send(buildSuccessResponse(data, "Admin user Removed successfully"));
+                res.send(buildSuccessResponse(data, "Admin user removed successfully"));
             })
             .catch(next);
     }

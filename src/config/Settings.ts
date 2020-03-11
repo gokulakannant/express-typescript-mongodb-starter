@@ -62,5 +62,5 @@ export default {
     tempStoragePath: "storage/temp/",
 
     /* Mode of server running */
-    developerMode: utils.isTrueSet(process.env.DEVELOPER_MODE)
+    developerMode: utils.isTrueSet(process.env.DEVELOPER_MODE) || false
 };

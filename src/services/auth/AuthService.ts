@@ -106,6 +106,23 @@ class AuthService {
         return filter;
     }
 
+    private sendPassword(data: IUserInfo): void {
+        mailer.send({
+            to: data.email,
+            subject: "Admin Panel Registeration",
+            html: this.parseRegisterationMailTmpl(data)
+        });
+    }
+
+    private parseRegisterationMailTmpl(data: IUserInfo): string {
+        const tmpl: string = AuthService.getRegisterUserEmailTmpl()
+                                        .replace("{{username}}", data.name)
+                                        .replace("{{password}}", data.password);
+        logger.log(data.email);
+        logger.log(data.password);
+        return tmpl;
+    }
+
     /**
      * Get the records from the database from the given param
      * The params having the filter, sorting and paginating inputs
@@ -181,23 +198,6 @@ class AuthService {
                 .insertMany([admin]);
             resolve();
         });
-    }
-
-    sendPassword(data: IUserInfo): void {
-        mailer.send({
-            to: data.email,
-            subject: "Admin Panel Registeration",
-            html: this.parseRegisterationMailTmpl(data)
-        });
-    }
-
-    parseRegisterationMailTmpl(data: IUserInfo): string {
-        const tmpl: string = AuthService.getRegisterUserEmailTmpl()
-                                        .replace("{{username}}", data.name)
-                                        .replace("{{password}}", data.password);
-        logger.log(data.email);
-        logger.log(data.password);
-        return tmpl;
     }
 
     /**

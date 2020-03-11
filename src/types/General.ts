@@ -3,19 +3,6 @@ import { Router, Request, Response, NextFunction } from "express";
 
 export abstract class BaseRoute {
     /**
-     * Abstract property, which is used to register the express authendicated routes
-     */
-    abstract _router: Router;
-    /**
-     * Optional property which is used to register the express unauthendicated routes
-     */
-    _openRouter?: Router;
-    /**
-     * A abstract method which commonly used to register routes
-     * @returns void
-     */
-    abstract registerRoutes(): void;
-    /**
      * The `index` method is basically send the collection data based on given Filter options.
      *
      * @param req Request
@@ -63,13 +50,6 @@ export abstract class BaseRoute {
     export?(req: Request, res: Response, next: NextFunction): void {}
 }
 
-export class CustomError extends Error {
-    /**
-     * Represents the statuscode of the error response
-     */
-    statusCode: number;
-}
-
 export interface IFileInfo {
     /**
      * Denotes the file name
@@ -81,7 +61,7 @@ export interface IFileInfo {
     size: number;
 }
 
-export class AdminError {
+export class AdminError extends Error {
     /**
      * Denotes status code of an error
      */
@@ -93,7 +73,7 @@ export class AdminError {
     /**
      * Error class generating time for logging purpose
      */
-    public timestamp: Date;
+    public timestamp: number;
     /**
      * To construct the AdminError class with given message and error code
      *
@@ -101,9 +81,10 @@ export class AdminError {
      * @param code Optional parameter to receiving the error code
      */
     constructor(errMessage: string, code?: number) {
+        super();
         this.message = errMessage;
         this.statusCode = code;
-        this.timestamp = new Date();
+        this.timestamp = Date.now();
     }
 }
 
@@ -137,7 +118,7 @@ export class SmptInfo {
      */
     auth: SmtpAuth;
 }
-// tslint:disable-next-line:max-classes-per-file
+
 export class ApiResponse {
     data: any;
     message: string;

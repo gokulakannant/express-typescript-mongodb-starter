@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import security from "../helpers/Security";
 import { buildErrorResponse } from "../helpers/ResponseBuilder";
-import { CustomError, IExpressRequest } from "../types";
+import { AdminError, IExpressRequest } from "../types";
 
 /**
  * Validate the jwt token for configured routes.
@@ -22,7 +22,7 @@ const validateJwtToken = (req: IExpressRequest, res: Response, next: NextFunctio
             req.user = decodedToken.data;
             next();
         })
-        .catch((err: CustomError) => {
+        .catch((err: AdminError) => {
             const error = err;
             error.statusCode = 401;
             res.status(401).send(buildErrorResponse(error));

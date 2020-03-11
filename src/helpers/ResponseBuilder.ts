@@ -1,4 +1,4 @@
-import { CustomError, ApiResponse } from "../types/General";
+import { ApiResponse, AdminError } from "../types/General";
 /**
  * To build a global success response for all the apis
  *
@@ -19,7 +19,7 @@ export const buildSuccessResponse = (data: any,
  *
  * @param { object } error
  */
-export const buildErrorResponse = (error: CustomError): ApiResponse => ({
+export const buildErrorResponse = (error: AdminError): ApiResponse => ({
     data: {},
     message: error.message || "Request caught an error...!"
 });
